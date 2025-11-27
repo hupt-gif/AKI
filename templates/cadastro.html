@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aki Cadastro</title>
+  <link rel="stylesheet" href="/static/css/cad.css">
+  <link rel="stylesheet" href="/static/css/styleCoop.css">
+  <script src="{{ url_for('static', filename='scriptRegistro.js') }}" defer></script>
+</head>
+
+
+<header class="header">
+  <div class="container header-container">
+    <a href="/akiCooperativa/user" class="logo">
+      <span class="logo-icon">🍁</span>
+      <span class="logo-text">Aki Produtos Eletrônicos</span>
+    </a>
+    <div class="menu">
+      <a href="/suporte" class="nav-link">Suporte</a> <br>
+      <a href="/login" class="nav-link">Login</a><br>
+      <a href="/akiCooperativa" class="nav-link">🍁Início🍁</a> <br>
+    </div>
+    </nav>
+  </div>
+</header>
+
+<body>
+  <div class="main-content-wrapper">
+
+    <div class="header-cadastro">
+      <h3>Registro de Login</h3>
+    </div>
+
+
+    <form id="formRegistro" class="formRegistro">
+      <div class="campo-form-registro">
+        <label>Usuário *</label><br>
+        <input type="text" name="username" placeholder="Usuário" required>
+      </div>
+
+      <div class="campo-form-registro">
+        <label>Nome Completo *</label><br>
+        <input type="text" name="nome" placeholder="Seu nome completo" required>
+      </div>
+
+      <div class="campo-form-registro">
+        <label>CPF *</label><br>
+        <input type="text" id="cpf" name="cpf" placeholder="CPF" maxlength="14" required>
+      </div>
+
+      <div class="campo-form-registro">
+        <label>Email *</label><br>
+        <input type="email" name="email" placeholder="Seu e-mail" required>
+      </div>
+
+      <div class="campo-form-registro">
+        <label>Senha *</label> <br>
+        <input type="password" name="senha" placeholder="Senha" required>
+      </div>
+
+      <div class="campo-form-registro">
+        <label>Confirme a senha *</label> <br>
+        <input type="password" name="confirmarSenha" placeholder="Confirmar senha" required>
+      </div>
+
+      <button class="btn-registro" type="submit">Registrar</button>
+
+      <div id="mensagemRegistro" class="mensagem"></div>
+
+    </form>
+
+    <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+      target="_blank">
+      <span><i class="fab fa-whatsapp"></i></span>
+      <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+    </a>
+
+  </div>
+ 
+  <footer id="contato" class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <h4>Contato</h4>
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+            <div class="footer-contact">
+
+            </div>
+            <div class="ceep">
+
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aki Produtos Eletrônicos. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

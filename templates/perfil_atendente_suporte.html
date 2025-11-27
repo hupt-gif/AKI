@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil do Funcionário</title>
+  <link rel="stylesheet" href="/static/css/perfilAtendente.css" />
+  <style>
+    /* Apenas para garantir que os botões iniciais estejam certos */
+    #btn-salvar {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="/akiCooperativa" class="logo">
+      <span class="logo-icon">🍁</span>
+      <span class="logo-text">Aki Produtos Eletrônicos</span>
+    </a>
+    <h1>Perfil do Funcionário</h1>
+
+
+    <div class="user-info">
+      <button class="btn-perfil" onclick="window.location.href='/suporte/atendente'"> Voltar ao Painel</button>
+      <button class="btn-perfil" onclick="logout()">Sair</button>
+    </div>
+
+  </header>
+
+  <main>
+    <section class="perfil-container">
+      <div class="foto-perfil">
+        <img src="https://i.pravatar.cc/150" alt="Foto de perfil" id="foto-perfil" />
+        <label for="upload-foto" title="Clique para alterar a foto" class="hidden">Alterar Foto</label>
+        <input type="file" id="upload-foto" class="hidden" placeholder="Selecione uma imagem" />
+        <button class="btn-perfil" onclick="document.getElementById().click()">Salvar Foto</button>
+      </div>
+
+      <div class="info-perfil">
+        <p><strong>Nome:</strong> <span id="nome-funcionario">Carlos Silva</span></p>
+        <p><strong>Cargo:</strong> <span id="cargo-funcionario">Analista de Suporte Nível 2</span></p>
+        <p><strong>Email:</strong> <span id="email-funcionario">carlos.silva@empresa.com</span></p>
+        <p><strong>Telefone:</strong> <span id="telefone-funcionario">(11) 98765-4321</span></p>
+        <p><strong>Status:</strong> <span class="online">Online</span></p>
+
+        <button id="btn-editar-perfil">Editar Perfil</button>
+        <button id="btn-salvar">Salvar</button>
+      </div>
+    </section>
+  </main>
+
+
+ 
+  <footer id="contato" class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <h4>Contato</h4>
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+            <div class="footer-contact">
+
+            </div>
+            <div class="ceep">
+
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+  <script src="/static/perfilAtendente.js"></script>
+</body>
+
+</html>
+

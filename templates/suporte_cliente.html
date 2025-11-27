@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte ao Cliente</title>
+    <link rel="stylesheet" href="/static/css/suporteCliente.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa/user" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <div>
+                <h1>SUPORTE</h1>
+            </div>
+
+            <nav class="nav-menu">
+
+                <h2>,,´´´´´´´´´´´´´´´´´´,,</h2>
+                <a href="/akiCooperativa/user" class="nav-link">🍁Início🍁</a><br>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="abrir-chamado">
+            <h2>Abrir um novo chamado</h2>
+            <form id="formChamado">
+                <label for="assunto">Assunto:</label>
+                <input type="text" id="assunto" placeholder="Digite o assunto do problema" required>
+
+                <label for="categoria">Categoria:</label>
+                <select id="categoria" required>
+                    <option value="">Selecione...</option>
+                    <option value="técnico">Técnico</option>
+                    <option value="financeiro">Financeiro</option>
+                    <option value="outros">Outros</option>
+                </select>
+
+                <label for="mensagem">Descreva seu problema:</label>
+                <textarea id="mensagem" rows="5" placeholder="Explique com detalhes" required></textarea>
+
+                <button type="submit">Enviar Chamado</button>
+            </form>
+
+            <p id="msgRetorno" class="msg"></p>
+        </section>
+
+        <section class="chamados">
+            <h2>Meus Chamados</h2>
+            <p id="contadorChamados" class="contador"></p>
+            <ul id="listaChamados"></ul>
+        </section>
+    </main>
+    <!-- Link direto para WhatsApp -->
+  
+
+    <footer>
+        <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+    </footer>
+
+
+    <script src="/static/suporteCliente.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <h1>Painel do Administrador</h1>
+
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">🍁Ínicio🍁</a>
+            </nav>
+        </div>
+        <nav>
+            <a href="{{ url_for('views.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('views.listar_produtos') }}">Gerenciar Produtos</a>
+            <a href="{{ url_for('views.listar_clientes') }}">Gerenciar Clientes</a>
+            <a href="{{ url_for('views.listar_cooperativas') }}">Gerenciar Cooperativas</a>
+            <a href="{{ url_for('views.relatorio_vendas') }}">Relatório de Vendas</a>
+            <a href="{{ url_for('views.ir_para_loja') }}">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container-clientes">
+        <button id="btnAbrirCadastroCliente" class="btn">➕ Cadastrar Cliente</button>
+        <!-- <form id="formCliente">
+            <input type="text" name="nome" placeholder="Nome" required>
+            <input type="text" name="cpf" placeholder="CPF" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="telefone" placeholder="Telefone" required>
+            <input type="date" name="data_nasc" placeholder="Data de nascimento" required>
+            <input type="cep" name="cep" id="cep" placeholder="CEP" onblur="pesquisacep(this.value);" required>
+            <input type="text" name="rua" id="rua" placeholder="Rua" required>
+            <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
+            <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
+            <input type="text" name="numero" placeholder="Número" required>
+            <input type="text" name="complemento" placeholder="Complemento" required>
+            <button type="submit">Adicionar Cliente</button>
+        </form> -->
+
+        <h2>Lista de Clientes</h2>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar...">
+            <button onclick="buscarItem()">Buscar</button>
+        </div>
+
+        <table id="tabelaClientes">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Data de Nascimento</th>
+                    <th>CEP</th>
+                    <th>Rua</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Número</th>
+                    <th>Complemento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in clientes %}
+                <tr>
+                    <td>{{ c.nome }}</td>
+                    <td>{{ c.cpf }}</td>
+                    <td>{{ c.email }}</td>
+                    <td>{{ c.telefone }}</td>
+                    <td>{{ c.data_nasc }}</td>
+                    <td>{{ c.cep }}</td>
+                    <td>{{ c.rua }}</td>
+                    <td>{{ c.bairro }}</td>
+                    <td>{{ c.cidade }}</td>
+                    <td>{{ c.numero }}</td>
+                    <td>{{ c.complemento }}</td>
+                    <td class="actions">
+                        <button onclick="excluirCliente('{{ c.id }}')">Excluir</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">Nenhum cliente cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Cadastro de Cliente -->
+    <div id="cadastroClienteModal" class="modal">
+        <div class="modal-content">
+
+            <button class="modal-close" type="button" onclick="fecharCadastroCliente()">✕</button>
+
+            <h3>Cadastrar Novo Cliente</h3>
+
+            <form id="formClienteModal">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="cpf" placeholder="CPF" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="telefone" placeholder="Telefone" required>
+                <input type="date" name="data_nasc" required>
+
+                <input type="text" name="cep" id="cepModal" placeholder="CEP" onblur="pesquisacepModal(this.value);"
+                    required>
+                <input type="text" name="rua" id="ruaModal" placeholder="Rua" required>
+                <input type="text" name="bairro" id="bairroModal" placeholder="Bairro" required>
+                <input type="text" name="cidade" id="cidadeModal" placeholder="Cidade" required>
+                <input type="text" name="numero" placeholder="Número" required>
+                <input type="text" name="complemento" placeholder="Complemento" required>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">Salvar</button>
+                    <button type="button" class="btn-cancel" onclick="fecharCadastroCliente()">Cancelar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-row">
+
+            <div class="footer-col">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+
+            <div class="footer-col center">
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p1>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p1>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('formClienteModal').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+
+            const res = await fetch('/admin/clientes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await res.json();
+            alert(result.message);
+
+            fecharCadastroCliente();
+            location.reload();
+        });
+
+
+        async function excluirCliente(id) {
+            if (!confirm('Tem certeza que deseja excluir este cliente?')) return;
+
+            const res = await fetch(`/admin/clientes/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            alert(result.message);
+            location.reload();
+        }
+
+        function buscarItem() {
+            const input = document.getElementById('searchInput');
+            const filtro = input.value.toLowerCase();
+            const tabela = document.querySelector('table');
+            const linhas = tabela.getElementsByTagName('tr');
+
+            for (let i = 1; i < linhas.length; i++) {
+                const primeiraCelula = linhas[i].getElementsByTagName('td')[0];
+                if (primeiraCelula) {
+                    const texto = primeiraCelula.textContent || primeiraCelula.innerText;
+                    linhas[i].style.display = texto.toLowerCase().includes(filtro) ? "" : "none";
+                }
+            }
+        }
+
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+        function limpa_formulário_cep_modal() {
+            document.getElementById('ruaModal').value = "";
+            document.getElementById('bairroModal').value = "";
+            document.getElementById('cidadeModal').value = "";
+        }
+
+        function meu_callback_modal(conteudo) {
+            if (!("erro" in conteudo)) {
+                document.getElementById('ruaModal').value = conteudo.logradouro;
+                document.getElementById('bairroModal').value = conteudo.bairro;
+                document.getElementById('cidadeModal').value = conteudo.localidade;
+            } else {
+                limpa_formulário_cep_modal();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacepModal(valor) {
+            var cep = valor.replace(/\D/g, '');
+
+            if (cep != "") {
+                var validacep = /^[0-9]{8}$/;
+
+                if (validacep.test(cep)) {
+                    document.getElementById('ruaModal').value = "...";
+                    document.getElementById('bairroModal').value = "...";
+                    document.getElementById('cidadeModal').value = "...";
+
+                    var script = document.createElement('script');
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback_modal';
+                    document.body.appendChild(script);
+                } else {
+                    limpa_formulário_cep_modal();
+                    alert("Formato de CEP inválido.");
+                }
+            } else {
+                limpa_formulário_cep_modal();
+            }
+        }
+
+
+        document.getElementById('searchInput').addEventListener('keyup', buscarItem);
+
+        // =======================
+        //  MODAL CADASTRO CLIENTE
+        // =======================
+
+        // abrir modal
+        document.getElementById("btnAbrirCadastroCliente").onclick = () => {
+            document.getElementById("cadastroClienteModal").style.display = "flex";
+        };
+
+        // fechar
+        function fecharCadastroCliente() {
+            document.getElementById("cadastroClienteModal").style.display = "none";
+        }
+
+        // fechar clicando fora
+        window.onclick = function (event) {
+            const modal = document.getElementById("cadastroClienteModal");
+            if (event.target === modal) modal.style.display = "none";
+        };
+
+    </script>
+</body>
+
+</html>

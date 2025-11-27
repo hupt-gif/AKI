@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Aki</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <script src="{{ url_for('static', filename='scriptLogin.js') }}" defer></script>
+</head>
+
+
+<body>
+  <header class="header">
+    <div class="container header-container">
+      <a href="/akiCooperativa" class="logo">
+        <span class="logo-icon">🍁</span>
+        <span class="logo-text">Aki Produtos Eletrônicos</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="/akiCooperativa" class="nav-link">Início</a><br>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Link direto para WhatsApp -->
+  <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+    target="_blank">
+    <span><i class="fab fa-whatsapp"></i></span>
+    <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+  </a>
+
+  <div class="headerLogin">
+    <h3>Login</h3>
+  </div>
+  <br><br>
+
+  <form id="formLogin" class="formLogin">
+
+    <div class="campoLogin">
+      <label>Usuário</label>
+      <input type="text" name="username" placeholder="Usuário" required>
+    </div>
+
+    <div class="campoLogin">
+      <label> Senha</label>
+      <input type="password" name="senha" placeholder="Senha" required>
+
+    </div>
+    <br>
+    <button class="btnLogin" type="submit">Login</button>
+    <div id="mensagemLogin" class="mensagem">
+    </div>
+  </form>
+
+  <form id="formLogin" class="formLogin">
+    <div class="campoLogin" id="campoNovo">
+      <h1 class="campoNovo">Novo Aki?</h1>
+      <button class="btnLogin"> <a href="/cadastro">Crie uma conta!</a></button>
+    </div>
+  </form> <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <footer id="contato" class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <a href="/" class="logo">
+            <span class="logo-icon">🍁</span>
+            <span class="logo-text">Aki Empresa</span>
+          </a>
+
+          <h4>Contato</h4>
+          <p>Telefone: (44) 99813-5592</p>
+          <p>Email: contato@akicoop.com.br</p>
+          <p>Instagram: @aki.produtos.eletronicos</p>
+        </div>
+        <div class="footer-contact">
+
+        </div>
+        <div class="ceep">
+
+          <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+          <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Aki Produtos Eletrônicos. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+
+</html>

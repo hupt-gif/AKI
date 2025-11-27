@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Cooperativa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <h1>Painel do Administrador</h1>
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">🍁Ínicio🍁</a>
+            </nav>
+        </div>
+        <nav>
+            <a href="{{ url_for('views.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('views.listar_produtos') }}">Gerenciar Produtos</a>
+            <a href="{{ url_for('views.listar_clientes') }}">Gerenciar Clientes</a>
+            <a href="{{ url_for('views.listar_cooperativas') }}">Gerenciar Cooperativas</a>
+            <a href="{{ url_for('views.relatorio_vendas') }}">Relatório de Vendas</a>
+            <a href="{{ url_for('views.ir_para_loja') }}">Logout</a>
+        </nav>
+    </header>
+
+
+    <div class="container-cooperativas">
+        <button id="btnAbrirCadastroCoop" class="btn">➕ Cadastrar Cooperativa</button>
+        <!-- <form id="formCooperativa">
+            <input type="text" name="nome" placeholder="Nome da cooperativa" required>
+            <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ somente os números" required>
+            <span id="cnpjErro" class="erro"></span>
+            <input type="text" name="telefone" placeholder="Telefone de contato" required>
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="cep" id="cep" placeholder="CEP" onblur="pesquisacep(this.value);" required>
+            <input type="text" name="rua" id="rua" placeholder="Rua" required>
+            <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
+            <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
+            <input type="text" name="numero" placeholder="Número" required>
+            <button type="submit">Adicionar Cooperativa</button>
+        </form> -->
+
+        <div class="titulo">
+            <h2>Lista de Cooperativas</h2>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar...">
+            <button onclick="buscarItem()">Buscar</button>
+        </div>
+
+        <table id="tabelaCoop">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CNPJ</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>CEP</th>
+                    <th>Rua</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Número</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in cooperativa %}
+                <tr>
+                    <td>{{ o.nome }}</td>
+                    <td>{{ o.cnpj }}</td>
+                    <td>{{ o.telefone }}</td>
+                    <td>{{ o.email }}</td>
+                    <td>{{ o.cep }}</td>
+                    <td>{{ o.rua }}</td>
+                    <td>{{ o.bairro }}</td>
+                    <td>{{ o.cidade }}</td>
+                    <td>{{ o.numero }}</td>
+                    <td class="actions">
+                        <button onclick="excluirCooperativa('{{ o.id }}')">Excluir</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">Nenhuma cooperativa cadastrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Cadastro -->
+    <div id="modalCadastroCoop" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="fecharCadastro()">✕</button>
+
+            <h2>Nova Cooperativa</h2>
+
+            <form id="formCooperativaModal">
+                <input type="text" name="nome" placeholder="Nome da cooperativa" required>
+                <input type="text" id="cnpjModal" name="cnpj" placeholder="CNPJ somente números" required>
+                <span id="cnpjErroModal" class="erro"></span>
+
+                <input type="text" name="telefone" placeholder="Telefone">
+                <input type="email" name="email" placeholder="Email">
+
+                <input type="text" id="cepModal" name="cep" placeholder="CEP" onblur="pesquisacepModal(this.value)"
+                    required>
+                <input type="text" id="ruaModal" name="rua" placeholder="Rua" required>
+                <input type="text" id="bairroModal" name="bairro" placeholder="Bairro" required>
+                <input type="text" id="cidadeModal" name="cidade" placeholder="Cidade" required>
+                <input type="text" name="numero" placeholder="Número" required>
+
+                <button type="submit" class="btn-save">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-row">
+
+            <div class="footer-col">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+
+            <div class="footer-col center">
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p1>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p1>
+        </div>
+    </footer>
+
+    <!-- TODO: Lista de tokens das cooperativas -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                // --- Helpers ---
+                function formatarCNPJ(value) {
+                    if (!value) return "";
+                    value = value.replace(/\D/g, ""); // remove tudo que não for número
+                    value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+                    value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                    value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                    value = value.replace(/(\d{4})(\d)/, "$1-$2");
+                    return value.substring(0, 18);
+                }
+
+                function validarCNPJ(cnpj) {
+                    if (!cnpj) return false;
+                    cnpj = cnpj.replace(/[^\d]+/g, '');
+                    if (cnpj.length !== 14) return false;
+                    if (/^(\d)\1+$/.test(cnpj)) return false;
+
+                    let tamanho = cnpj.length - 2;
+                    let numeros = cnpj.substring(0, tamanho);
+                    let digitos = cnpj.substring(tamanho);
+                    let soma = 0;
+                    let pos = tamanho - 7;
+
+                    for (let i = tamanho; i >= 1; i--) {
+                        soma += numeros.charAt(tamanho - i) * pos--;
+                        if (pos < 2) pos = 9;
+                    }
+                    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+                    if (resultado != digitos.charAt(0)) return false;
+
+                    tamanho += 1;
+                    numeros = cnpj.substring(0, tamanho);
+                    soma = 0;
+                    pos = tamanho - 7;
+                    for (let i = tamanho; i >= 1; i--) {
+                        soma += numeros.charAt(tamanho - i) * pos--;
+                        if (pos < 2) pos = 9;
+                    }
+                    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+                    if (resultado != digitos.charAt(1)) return false;
+
+                    return true;
+                }
+
+                // --- Elementos do DOM (null-safe) ---
+                const cnpjInput = document.getElementById('cnpj');
+                const form = document.getElementById('formCooperativa');
+
+                // Aplica formatação automática (se o input existir)
+                if (cnpjInput) {
+                    cnpjInput.addEventListener('input', (e) => {
+                        const posInicial = e.target.selectionStart;
+                        const oldLength = e.target.value.length;
+                        e.target.value = formatarCNPJ(e.target.value);
+                        // tenta preservar posição do cursor (simples)
+                        const newLength = e.target.value.length;
+                        const diff = newLength - oldLength;
+                        try {
+                            e.target.selectionStart = e.target.selectionEnd = Math.max(0, posInicial + diff);
+                        } catch (err) {
+                            // alguns navegadores / situações não permitem mover o cursor; ignora
+                        }
+                    });
+                } else {
+                    console.warn("Campo #cnpj não encontrado no DOM. Formatação automática desativada.");
+                }
+
+                // Submissão com validação (se o form existir)
+                document.getElementById("formCooperativaModal").addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    const data = Object.fromEntries(new FormData(e.target).entries());
+
+                    const res = await fetch('/admin/cooperativas', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await res.json();
+                    alert(result.message);
+                    fecharCadastro();
+                    location.reload();
+                });
+
+
+                // Define função global para exclusão (para os botões onclick inline no template)
+                window.excluirCooperativa = async function (id) {
+                    try {
+                        if (!confirm('Tem certeza que deseja excluir esta cooperativa?')) return;
+                        const res = await fetch(`/admin/cooperativas/${id}`, { method: 'DELETE' });
+                        const result = await res.json();
+                        alert(result.message || 'Cooperativa excluída.');
+                        location.reload();
+                    } catch (err) {
+                        console.error("Erro ao excluir cooperativa:", err);
+                        alert('Erro ao excluir. Veja o console para mais detalhes.');
+                    }
+                };
+
+            } catch (globalErr) {
+                console.error("Erro no script principal:", globalErr);
+            }
+        });
+
+        function buscarItem() {
+            const input = document.getElementById('searchInput');
+            const filtro = input.value.toLowerCase();
+            const tabela = document.querySelector('table');
+            const linhas = tabela.getElementsByTagName('tr');
+
+            for (let i = 1; i < linhas.length; i++) {
+                const primeiraCelula = linhas[i].getElementsByTagName('td')[0];
+                if (primeiraCelula) {
+                    const texto = primeiraCelula.textContent || primeiraCelula.innerText;
+                    linhas[i].style.display = texto.toLowerCase().includes(filtro) ? "" : "none";
+                }
+            }
+        }
+
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+        document.getElementById('searchInput').addEventListener('keyup', buscarItem);
+
+        // ---------- MODAL CADASTRO ----------
+        document.getElementById("btnAbrirCadastroCoop").onclick = () => {
+            document.getElementById("modalCadastroCoop").style.display = "flex";
+        };
+
+        function fecharCadastro() {
+            document.getElementById("modalCadastroCoop").style.display = "none";
+        }
+
+
+        // ---------- MODAL TABELA ----------
+        document.getElementById("btnAbrirTabela").onclick = () => {
+            document.getElementById("modalTabelaCoop").style.display = "flex";
+        };
+
+        function fecharTabela() {
+            document.getElementById("modalTabelaCoop").style.display = "none";
+        }
+
+
+        // Fechar ao clicar fora
+        window.onclick = function (e) {
+            const mod1 = document.getElementById("modalCadastroCoop");
+            const mod2 = document.getElementById("modalTabelaCoop");
+            if (e.target === mod1) mod1.style.display = "none";
+            if (e.target === mod2) mod2.style.display = "none";
+        };
+
+        document.getElementById("btnExportarCSV").onclick = () => {
+            const linhas = [...document.querySelectorAll("#tabelaCoopModal tr")];
+            let csv = linhas.map(linha =>
+                [...linha.children].map(td => `"${td.innerText}"`).join(",")
+            ).join("\n");
+
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "cooperativas.csv";
+            a.click();
+        };
+
+        function limpa_formulário_cep_modal() {
+            document.getElementById('ruaModal').value = "";
+            document.getElementById('bairroModal').value = "";
+            document.getElementById('cidadeModal').value = "";
+        }
+
+        function callback_modal(conteudo) {
+            if (!("erro" in conteudo)) {
+                document.getElementById('ruaModal').value = conteudo.logradouro;
+                document.getElementById('bairroModal').value = conteudo.bairro;
+                document.getElementById('cidadeModal').value = conteudo.localidade;
+            } else {
+                limpa_formulário_cep_modal();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacepModal(valor) {
+            let cep = valor.replace(/\D/g, '');
+            if (cep.length === 8) {
+                let script = document.createElement('script');
+                script.src = `https://viacep.com.br/ws/${cep}/json/?callback=callback_modal`;
+                document.body.appendChild(script);
+            }
+        }
+
+    </script>
+</body>
+
+</html>

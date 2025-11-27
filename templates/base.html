@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Aki Cooperativa{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleCoop.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="/cart" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-item-count">0</span>
+                </a>
+                <a href="/suporte" class="nav-link">Suporte</a>
+                
+                {% if session.get('user_id') %}
+                    <a href="/perfil" class="nav-link">Perfil</a>
+                    <a href="/logout" class="nav-link">Sair</a>
+                {% else %}
+                    <a href="/login" class="nav-link">Login</a>
+                    <a href="/cadastro" class="nav-link">Cadastro</a> <br>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div id="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="toast-notification show {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+   
+    <footer id="contato" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🍁</span>
+                        <span class="logo-text">Aki Empresa</span>
+                    </a>
+
+                    <h4>Contato</h4>
+                    <p>Telefone: (44) 99813-5592</p>
+                    <p>Email: contato@akicoop.com.br</p>
+                    <p>Instagram: @aki.produtos.eletronicos</p>
+                </div>
+                <div class="footer-contact">
+
+                </div>
+                <div class="ceep">
+
+                    <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                    <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+        
+    <script src="{{ url_for('static', filename='scriptCoop.js') }}"></script>
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html>

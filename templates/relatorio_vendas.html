@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <h1>Painel do Administrador</h1>
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">🍁Ínicio🍁</a>
+            </nav>
+        </div>
+        <nav>
+            <a href="{{ url_for('views.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('views.listar_produtos') }}">Gerenciar Produtos</a>
+            <a href="{{ url_for('views.listar_clientes') }}">Gerenciar Clientes</a>
+            <a href="{{ url_for('views.listar_cooperativas') }}">Gerenciar Cooperativas</a>
+            <a href="{{ url_for('views.relatorio_vendas') }}">Relatório de Vendas</a>
+            <a href="{{ url_for('views.ir_para_loja') }}">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Relatório de Vendas</h2>
+
+
+        <div class="acoes-relatorio">
+            <button id="btnAbrirTabela" class="btn">📄 Ver Pedidos</button>
+            <button id="btnAbrirGraficoDia" class="btn">📊 Faturamento por Dia</button>
+            <button id="btnAbrirGraficoStatus" class="btn">🟢 Status dos Pedidos</button>
+            <button id="btnAbrirGraficoProdutos" class="btn">📦 Produtos Mais Vendidos</button>
+            <button id="btnExportarCSV" class="btn">⬇ Exportar CSV</button>
+        </div>
+    </div>
+
+    <div id="modalTabela" class="modal">
+        <div class="modal-content-large" id="container-vendas">
+            <span class="modal-close fecharTabela">&times;</span>
+            <h3>Pedidos Registrados</h3>
+
+
+            <button id="btnAbrirFiltros" class="btn">🔍 Filtros</button>
+            <input type="text" id="campoBusca" class="input-busca" placeholder="Buscar..." />
+            <button class="close" onclick="fecharModal('modalTabela')">X</button>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>ID Cliente</th>
+                        <th>Produtos</th>
+                        <th>Valor Total</th>
+                        <th>Data/Hora</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido[0] }}</td>
+                        <td>{{ pedido[1] }}</td>
+                        <td>{{ pedido[2] }}</td>
+                        <td>R$ {{ "%.2f"|format(pedido[3]|float) }}</td>
+                        <td>{{ pedido[4] }}</td>
+                        <td>{{ pedido[5] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">Nenhum pedido encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalGraficoDia" class="modal">
+        <div class="modal-content">
+            <span class="modal-close fecharGraficoDia">&times;</span>
+            <h3>Faturamento por Dia</h3>
+            <canvas id="graficoVendasDia"></canvas>
+        </div>
+    </div>
+
+    <div id="modalGraficoStatus" class="modal">
+        <div class="modal-content">
+            <span class="modal-close fecharGraficoStatus">&times;</span>
+            <h3>Status dos Pedidos</h3>
+            <canvas id="graficoStatus"></canvas>
+        </div>
+    </div>
+
+    <div id="modalGraficoProdutos" class="modal">
+        <div class="modal-content">
+            <span class="modal-close fecharGraficoProdutos">&times;</span>
+            <h3>Produtos Mais Vendidos</h3>
+            <canvas id="graficoProdutos"></canvas>
+        </div>
+    </div>
+
+    <!-- <div class="container">
+
+        <h2>Relatório de Vendas</h2>
+
+        <div class="acoes-relatorio">
+            <button id="btnAbrirFiltros" class="btn">Filtros</button>
+            <button id="btnExportarCSV" class="btn">Exportar CSV</button>
+
+            <input type="text" id="campoBusca" class="input-busca" placeholder="🔍 Buscar na tabela...">
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID do Pedido</th>
+                    <th>ID do Cliente</th>
+                    <th>Produtos</th>
+                    <th>Valor Total</th>
+                    <th>Data/Hora</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido[0] }}</td>
+                    <td>{{ pedido[1] }}</td>
+                    <td>{{ pedido[2] }}</td>
+                    <td>R$ {{ "%.2f"|format(pedido[3]|float) }}</td>
+
+                    <td>{{ pedido[4] }}</td>
+                    <td>{{ pedido[5] }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Nenhum pedido encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> -->
+
+    <!-- <div class="graficos-grid">
+
+        <div class="grafico-card">
+            <h3>Faturamento por Dia</h3>
+            <canvas id="graficoVendasDia"></canvas>
+        </div>
+
+        <div class="grafico-card">
+            <h3>Pedidos por Status</h3>
+            <canvas id="graficoStatus"></canvas>
+        </div>
+
+        <div class="grafico-card">
+            <h3>Produtos Mais Vendidos</h3>
+            <canvas id="graficoProdutos"></canvas>
+        </div>
+
+    </div> -->
+
+    <!-- MODAL DE FILTROS -->
+    <div id="modalFiltros" class="modal">
+        <div class="modal-content">
+            <span id="fecharModal" class="modal-close">&times;</span>
+            <h3>Filtros Avançados</h3>
+
+            <label>Status:</label>
+            <select id="filtroStatus">
+                <option value="">Todos</option>
+                <option value="Aprovado">Aprovado</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <label>Data Inicial:</label>
+            <input type="date" id="filtroDataInicio">
+
+            <label>Data Final:</label>
+            <input type="date" id="filtroDataFim">
+
+            <button id="btnAplicarFiltros" class="btn">Aplicar</button>
+            <button id="btnLimparFiltros" class="btn btn-secondary">Limpar</button>
+        </div>
+    </div>
+
+    <div><br><br><br><br><br><br><br><br><br><br><br><br></div>
+    <footer class="footer">
+        <div class="footer-row">
+
+            <div class="footer-col">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+
+            <div class="footer-col center">
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p1>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p1>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='/admin-dashboard.js') }}"></script>
+
+</body>
+
+</html>

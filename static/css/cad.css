@@ -1,0 +1,341 @@
+:root {
+    /* Paleta de Cores Outono */
+    --verde: #384001;
+    --laranja: #E86433;
+    --amarelo: #E97F05;
+    --marrom: #5B1A04;
+    --vermelho: #E84130;
+    --branco: #f8f8f8;
+    --preto: #1C1C1C;
+    --fundo1: #FFEBCD;
+    --certos: #10B981;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo1);
+    color: var(--branco);
+    line-height: 1.6;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    /* Garante que o footer fique no fim mesmo com pouco conteúdo */
+}
+
+/* Wrapper principal para centralizar */
+.main-content-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    flex: 1;
+    /* Empurra o footer para baixo */
+}
+
+/*----------------- Geral: Estilo dos Inputs ------------------*/
+.campo-form label {
+    display: flex;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--marrom);
+}
+
+.campo-form input:focus {
+    border-color: var(--branco);
+    box-shadow: 0 0 0 2px rgba(91, 69, 194, 0.3);
+    outline: none;
+}
+
+.campo-form input::placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+/*----------------- Mensagens de Validação ------------------*/
+#mensagem-login,
+#mensagemRegistro {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    display: none;
+    /* Controlado via JS */
+}
+
+#mensagem-login.sucesso,
+#mensagemRegistro.sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+#mensagem-login.erro,
+#mensagemRegistro.erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
+}
+
+/*----------------- Header Cadastro/Registro ------------------*/
+.header-cadastro {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-cadastro h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--marrom);
+    padding-bottom: 1px;
+    text-align: center;
+    padding-top: 80px;
+    /* Ajustado levemente */
+    margin: 0;
+}
+
+.header-cadastro::after {
+    content: "";
+    display: block;
+    width: 350px;
+    height: 3px;
+    background-color: var(--verde);
+    margin: 8px auto 0;
+}
+
+/*----------------- FORMULÁRIO DE REGISTRO (GRID SYSTEM) ------------------*/
+
+/* Container externo */
+.formRegistro {
+    width: auto;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* O Formulário em si */
+#formRegistro {
+    width: 100%;
+    max-width: 900px;
+    /* Aumentei um pouco para dar respiro às colunas */
+    background: var(--branco);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 0 auto 40px auto;
+
+    /* --- CONFIGURAÇÃO DO GRID --- */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Duas colunas de tamanho igual */
+    gap: 25px;
+    /* Espaço entre colunas e linhas */
+    align-items: end;
+    /* Alinha campos verticalmente na base */
+}
+
+/* Estilo dos itens individuais (divs que contêm label e input) */
+#formRegistro>.campo-form-registro {
+    width: 100%;
+    box-sizing: border-box;
+    /* Não precisa de margin-bottom pois o gap do grid resolve */
+}
+
+/* Labels específicos do registro */
+.campo-form-registro label {
+    color: var(--marrom);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Inputs do formulário de registro */
+.campo-form-registro input[type="text"],
+.campo-form-registro input[type="password"],
+.campo-form-registro input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--verde);
+    border-radius: 8px;
+    background-color: #fff;
+    /* Garante fundo branco no input */
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.campo-form-registro input:focus {
+    outline: none;
+    border-color: var(--laranja);
+    box-shadow: 0 0 5px rgba(232, 100, 51, 0.3);
+}
+
+/* Botão de Registro */
+.btn-registro {
+    /* Faz o botão ocupar as duas colunas (largura total) */
+    grid-column: span 2;
+
+    background: linear-gradient(135deg, #ff6347 0%, #ff4500 100%);
+    color: var(--branco);
+    border: none;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-registro:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--laranja);
+    background: linear-gradient(135deg, #ff4500 0%, #d63a00 100%);
+}
+
+/* Mensagem de erro/sucesso ocupa largura total */
+#mensagemRegistro {
+    grid-column: span 2;
+    text-align: center;
+}
+
+/*----------------- Whatsapp Button ------------------*/
+.whatsapp-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #25D366;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    z-index: 99999;
+    transition: .3s;
+    transform: translateX(10%);
+    transform: translateY(-370%);
+  }
+  
+  .whatsapp-button .fab {
+    font-size: 22px;
+  }
+  
+  .text-whatsapp {
+    white-space: nowrap;
+    transition: .3s;
+  }
+  
+
+/*----------------- FOOTER ------------------*/
+.footer {
+    width: 100%;
+    background-color: var(--verde);
+    color: var(--branco);
+    padding: 30px 0 10px 0;
+    margin-top: auto;
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-logo h4 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: var(--laranja);
+}
+
+.footer-logo p,
+.ceep p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.ceep {
+    text-align: right;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+
+
+
+.ceep {
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    display: grid;
+}
+
+.ceep p {
+    text-align: center;
+    width: 50%;
+}
+
+.img-ceep {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+
+/*----------------- RESPONSIVIDADE (Mobile) ------------------*/
+@media (max-width: 768px) {
+
+    /* Ajusta o Grid para 1 coluna em telas menores */
+    #formRegistro {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    /* Botão e mensagem voltam a ocupar apenas 1 coluna (a única existente) */
+    .btn-registro,
+    #mensagemRegistro {
+        grid-column: span 1;
+    }
+
+    /* Ajustes do Footer */
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ceep {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .header-cadastro h3 {
+        font-size: 1.8rem;
+    }
+
+    .header-cadastro::after {
+        width: 80%;
+    }
+}

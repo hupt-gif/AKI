@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Aki Cooperativa</title>
+    <link rel="stylesheet" href="/static/css/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<header class="header">
+    <div class="container header-container">
+        <a href="/akiCooperativa/user" class="logo">
+            <span class="logo-icon">🍁</span>
+            <span class="logo-text">Aki Produtos Eletrônicos</span>
+        </a>
+        <div class="menu">
+            <a href="/suporte" class="nav-link">Suporte</a> <br>
+
+            <a href="/logout" class="nav-link">Logout</a><br>
+            <a href="/akiCooperativa" class="nav-link">🍁Início🍁</a> <br>
+        </div>
+        </nav>
+    </div>
+</header>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="profile-container">
+
+            <aside class="profile-sidebar">
+                <nav class="profile-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-target="minha-conta"><i
+                                    class="fa-solid fa-user"></i>
+                                Minha Conta</a></li>
+                        <li><a href="#" class="nav-link" data-target="pedidos"><i class="fa-solid fa-box-archive"></i>
+                                Histórico de Pedidos</a></li>
+                        <li><a href="#" class="nav-link" data-target="seguranca"><i class="fa-solid fa-shield"></i>
+                                Segurança</a></li>
+                        <li><a href="#" class="nav-link" data-target="pagamentos"><i
+                                    class="fa-solid fa-credit-card"></i>
+                                Pagamentos</a></li>
+                        <li><a href="#" class="nav-link" data-target="enderecos"><i
+                                    class="fa-solid fa-map-location-dot"></i> Endereços</a></li>
+                        <li><a href="/akiCooperativa/user">Voltar à Loja</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="profile-content" id="main">
+
+                <section class="content-section active" id="minha-conta">
+                    <h2>Minha Conta</h2>
+                    <p>Gerencie suas informações pessoais.</p>
+                    <form>
+                        <div class="form-group">
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" id="nome" value="{{ perfil.nome_completo }}" readonly
+                                style="background-color: #f0f0f0;">
+                        </div>
+                        <div class="form-group">
+                            <label for="cpf">CPF:</label>
+                            <input type="text" name="cpf" id="cpf" value="{{ perfil.cpf }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" value="{{ perfil.email }}" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" id="telefone" value="{{ perfil.telefone }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="data_nasc">Data de Nascimento:</label>
+                            <input type="date" id="data_nasc" value="{{ perfil.data_nasc }}">
+                        </div>
+
+                        <button id="btn-salvar-perfil" class="btn-salvar" type="button">
+                            <i class="fa-solid fa-floppy-disk"></i> Salvar Dados
+                        </button>
+                    </form>
+                </section>
+
+                <section class="content-section" id="pedidos">
+                    <h2>Histórico de Pedidos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in pedidos %}
+                            <tr>
+                                <td>#{{ p.id }}</td>
+                                <td>{{ p.data }}</td>
+                                <td>
+                                    <span class="status-badge {{ p.status|lower }}">{{ p.status }}</span>
+                                </td>
+                                <td>R$ {{ "%.2f"|format(p.valor_total) }}</td>
+                                <td>
+                                    <button class="btn-detalhes" data-pedido-id="{{ p.id }}">
+                                        Ver Produtos
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" id="detalhes-{{ p.id }}" style="padding:0; border:none;"></td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:20px;">
+                                    Você ainda não realizou nenhum pedido.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="content-section" id="seguranca">
+
+                    <h2>⛨ Segurança</h2>
+                    <div class="security-container">
+                        <div class="form-card">
+                            <h3>Alterar Senha</h3>
+                            <form id="form-alterar-senha">
+                                <div class="form-group">
+                                    <label>Senha Atual</label>
+                                    <input type="password" id="senha-atual" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nova Senha</label>
+                                    <input type="password" id="senha-nova" required>
+                                </div>
+                                <button type="submit" class="btn-salvar">Atualizar Senha</button>
+                            </form>
+                        </div>
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                        <div class="form-card">
+                            <h3>Alterar E-mail</h3>
+                            <form id="form-alterar-email">
+                                <div class="form-group">
+                                    <label>Novo E-mail</label>
+                                    <input type="email" id="novo-email" required>
+                                </div>
+                                <button type="submit" class="btn-salvar">Atualizar E-mail</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-section" id="pagamentos">
+                    <h2>Meus Cartões</h2>
+                    <div id="lista-pagamentos" class="cards-grid">
+                        <p>Carregando métodos de pagamento...</p>
+                    </div>
+                    <button id="btn-add-pagamento" class="btn-salvar" style="margin-top: 20px;">
+                        <i class="fa-solid fa-credit-card"></i> Adicionar Novo Cartão
+                    </button>
+                </section>
+
+                <section class="content-section" id="enderecos">
+                    <h2>Meus Endereços</h2>
+                    <div id="enderecos-container">
+                        <p>Carregando endereços...</p>
+                    </div>
+                    <br>
+                    <button id="btn-add-endereco" class="btn-salvar">
+                        <i class="fa-solid fa-plus"></i> Adicionar novo endereço
+                    </button>
+                </section>
+
+                <div id="pagamentoModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span id="closePagamentoModal" class="close-button">&times;</span>
+                        <h2>Adicionar Cartão</h2>
+                        <form id="form-novo-pagamento">
+                            <label>Apelido do Cartão (Ex: NuBank)
+                                <input type="text" id="pg-apelido" placeholder="Meu Cartão Principal" required>
+                            </label><br>
+                            <label>Número do Cartão
+                                <input type="text" id="pg-numero" maxlength="19" placeholder="0000 0000 0000 0000"
+                                    required>
+                            </label><br>
+                            <div style="display:flex; gap:10px;">
+                                <label style="flex:1">Validade
+                                    <input type="text" id="pg-validade" placeholder="MM/AA" maxlength="5" required>
+                                </label>
+                                <label style="flex:1">CVV
+                                    <input type="text" id="pg-cvv" placeholder="123" maxlength="3" required>
+                                </label>
+                            </div>
+                            <label>Nome no Cartão
+                                <input type="text" id="pg-titular" required>
+                            </label><br>
+                            <div style="margin-top:15px;">
+                                <button type="submit" class="btn-salvar">Salvar Método</button>
+                                <button type="button" id="btn-cancel-pagamento" class="btn-salvar"
+                                    style="background:#ccc; color:#333">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="enderecoModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span id="closeEnderecoModal" class="close-button">×</span>
+                        <h2>Adicionar Endereço</h2>
+                        <form id="form-endereco">
+                            <label>Tipo <br>
+                                <select id="input-tipo">
+                                    <option>Casa</option>
+                                    <option>Trabalho</option>
+                                </select>
+                            </label> <br>
+                            <label>CEP <br>
+                                <input id="input-cep" name="cep" required>
+                                <button type="button" id="btn-buscar-cep">Buscar CEP</button>
+                            </label> <br>
+                            <label>Rua <br><input id="input-rua" name="rua" required></label> <br>
+                            <label>Número <br><input id="input-numero" name="numero" required></label> <br>
+                            <label>Bairro <br><input id="input-bairro" name="bairro" required></label> <br>
+                            <label>Cidade <br><input id="input-cidade" name="cidade" required></label> <br>
+                            <label>Complemento <br><input id="input-complemento" name="complemento"></label> <br>
+                            <div style="margin-top:12px;">
+                                <button id="btn-salvar-endereco" class="btn-salvar" type="submit">Salvar</button>
+                                <button id="btn-cancel-endereco" class="btn-salvar" type="button">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Link direto para WhatsApp -->
+    <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+        target="_blank">
+        <span><i class="fab fa-whatsapp"></i></span>
+        <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+    </a>
+
+    <footer class="footer">
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aki Produtos Eletrônicos. Todos os direitos reservados.</p>
+        </div>
+
+    </footer>
+
+    <script>
+        // O JS usa window.perfilId para troca de senha.
+        // O Python passa 'perfil.id'.
+        window.clienteId = "{{ perfil.id }}";
+        window.perfilId = "{{ perfil.id }}"; // Corrigido: antes buscava 'perfil_id' que não existia
+    </script>
+
+
+    <script src="/static/perfil.js"></script>
+
+</body>
+
+</html>

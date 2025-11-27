@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooperativa - Gerenciamento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cooperativa.css') }}">
+</head>
+
+<body>
+
+    <div class="main-content-wrapper">
+        <div class="container-card">
+            <header class="header-padrao">
+                <h1>Bem-vindo, Cooperado</h1>
+                <div class="header-line"></div>
+            </header>
+
+            <main>
+                <div class="actions-row">
+                    <p class="intro-text">Gerencie seus tokens de acesso abaixo:</p>
+                    <button class="logout-btn" onclick="window.location.href='/login'">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+
+                <section class="gerar-token-section">
+                    <button id="gerarTokenBtn" class="btn-primary">
+                        <i class="fas fa-key"></i> Gerar Novo Token
+                    </button>
+                </section>
+
+                <section class="lista-tokens">
+                    <h2><i class="fas fa-list"></i> Histórico de Tokens</h2>
+                    <ul id="tokensList" class="token-grid">
+                        {% for token in tokens %}
+                        <li class="token-card">
+                            <div class="token-info">
+                                <span class="label">Código:</span>
+                                <span class="code">{{ token.code }}</span>
+                            </div>
+                            <div class="token-date">
+                                <span class="label">Expira em:</span>
+                                <span class="value">{{ token.expires_at }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </main>
+        </div>
+    </div>
+
+
+    <footer class="footer">
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+        </div>
+
+    </footer>
+
+
+
+    <script>
+        const btn = document.getElementById('gerarTokenBtn');
+        const tokensList = document.getElementById('tokensList');
+
+        btn.addEventListener('click', () => {
+            // Adiciona efeito de loading visual
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
+            btn.disabled = true;
+
+            fetch('/cooperativa/gerar_token', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.token) {
+                        const li = document.createElement('li');
+                        li.className = 'token-card'; // Aplica a classe de estilo
+
+                        const expDate = new Date(data.token.expires_at);
+                        const formattedDate = `${expDate.getDate().toString().padStart(2, '0')}/${(expDate.getMonth() + 1).toString().padStart(2, '0')}/${expDate.getFullYear()}`;
+
+                        li.innerHTML = `
+                            <div class="token-info">
+                                <span class="label">Código:</span>
+                                <span class="code">${data.token.code}</span>
+                            </div>
+                            <div class="token-date">
+                                <span class="label">Expira em:</span>
+                                <span class="value">${formattedDate}</span>
+                            </div>
+                        `;
+                        // Adiciona no topo da lista
+                        tokensList.prepend(li);
+                    } else {
+                        alert('Erro ao gerar token');
+                    }
+                })
+                .catch(err => console.error(err))
+                .finally(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+        });
+    </script>
+</body>
+
+</html>

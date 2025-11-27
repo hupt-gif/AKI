@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <h1>Painel do Administrador</h1>
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">🍁Ínicio🍁</a>
+            </nav>
+        </div>
+        <nav>
+            <a href="{{ url_for('views.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('views.listar_produtos') }}">Gerenciar Produtos</a>
+            <a href="{{ url_for('views.listar_clientes') }}">Gerenciar Clientes</a>
+            <a href="{{ url_for('views.listar_cooperativas') }}">Gerenciar Cooperativas</a>
+            <a href="{{ url_for('views.relatorio_vendas') }}">Relatório de Vendas</a>
+            <a href="{{ url_for('views.login') }}">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Navegação entre as páginas de CRUD -->
+
+    <div class="container">
+        <h2>Bem-vindo ao painel de administração!</h2>
+        <p>Escolha uma das opções acima para gerenciar o conteúdo do sistema.</p>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+
+        <div class="token-admin-section" style="text-align: center;">
+            <h3>💎 Gestão de Cupons de Desconto</h3>
+            <div style="margin-top: 15px;">
+                <button onclick="abrirModalCriarToken()" class="btn" style="background-color: #6f42c1;">
+                    ➕ Criar Novo Cupom
+                </button>
+                <button onclick="abrirModalGerenciarTokens()" class="btn"
+                    style="background-color: #007bff; margin-left: 10px;">
+                    ⚙️ Gerenciar / Ativar Cupons
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCriarToken" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="fecharModaisTokens()">&times;</span>
+            <h3>Novo Cupom de Desconto</h3>
+            <form id="formCriarToken">
+                <label>Código do Cupom (Ex: NATAL2025)</label>
+                <input type="text" name="code" required style="text-transform: uppercase;">
+
+                <label>Desconto (%) (Ex: 15)</label>
+                <input type="number" name="discount" min="1" max="100" required>
+
+                <label>Limite de Usos (Ex: 100)</label>
+                <input type="number" name="max_uses" min="1" required>
+
+                <button type="submit" class="btn-save" style="margin-top: 15px; width: 100%;">Criar Cupom</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalGerenciarTokens" class="modal">
+        <div class="modal-content" style="width: 800px; max-width: 95%;">
+            <span class="modal-close" onclick="fecharModaisTokens()">&times;</span>
+            <h3>Meus Cupons</h3>
+            <table id="tabelaTokensAdmin" style="width: 100%; margin-top: 10px;">
+                <thead>
+                    <tr style="background: #f0f0f0;">
+                        <th>Código</th>
+                        <th>Desc.%</th>
+                        <th>Usos</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Funções de Modal
+        function fecharModaisTokens() {
+            document.getElementById('modalCriarToken').style.display = 'none';
+            document.getElementById('modalGerenciarTokens').style.display = 'none';
+        }
+
+        function abrirModalCriarToken() {
+            fecharModaisTokens();
+            document.getElementById('modalCriarToken').style.display = 'flex';
+        }
+
+        async function abrirModalGerenciarTokens() {
+            fecharModaisTokens();
+            document.getElementById('modalGerenciarTokens').style.display = 'flex';
+            await carregarTokensAdmin();
+        }
+
+        // 1. Criar Token
+        document.getElementById('formCriarToken').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const res = await fetch('/admin/tokens', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert("Cupom criado com sucesso!");
+                e.target.reset();
+                fecharModaisTokens();
+            } else {
+                const erro = await res.json();
+                alert("Erro: " + erro.erro);
+            }
+        });
+
+        // 2. Carregar e Listar Tokens
+        async function carregarTokensAdmin() {
+            const tbody = document.querySelector('#tabelaTokensAdmin tbody');
+            tbody.innerHTML = '<tr><td colspan="5">Carregando...</td></tr>';
+
+            const res = await fetch('/admin/tokens');
+            const tokens = await res.json();
+
+            tbody.innerHTML = '';
+
+            if (tokens.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">Nenhum cupom criado.</td></tr>';
+                return;
+            }
+
+            tokens.forEach(t => {
+                const tr = document.createElement('tr');
+                const ativo = t.active === 'True';
+                const corStatus = ativo ? 'green' : 'red';
+                const textoStatus = ativo ? 'ATIVO' : 'INATIVO';
+                const btnTexto = ativo ? 'Desativar' : 'Ativar';
+                const btnCor = ativo ? '#dc3545' : '#28a745';
+
+                tr.innerHTML = `
+                    <td style="font-weight:bold;">${t.code}</td>
+                    <td>${t.discount}%</td>
+                    <td>${t.current_uses} / ${t.max_uses}</td>
+                    <td style="color:${corStatus}; font-weight:bold;">${textoStatus}</td>
+                    <td>
+                        <button onclick="toggleToken('${t.id}')" 
+                                style="background:${btnCor}; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">
+                            ${btnTexto}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 3. Ativar/Desativar
+        async function toggleToken(id) {
+            // CORREÇÃO: Remova as barras invertidas (\) antes das crases (`) e do ${}
+            const res = await fetch(`/admin/tokens/${id}/toggle`, { method: 'POST' });
+
+            if (res.ok) {
+                carregarTokensAdmin(); // Recarrega a tabela
+            } else {
+                alert("Erro ao alterar status.");
+            }
+        }
+    </script>
+
+    <footer class="footer">
+        <div class="footer-row">
+
+            <div class="footer-col">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+
+            <div class="footer-col center">
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p1>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p1>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

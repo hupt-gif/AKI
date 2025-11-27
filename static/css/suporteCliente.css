@@ -1,0 +1,181 @@
+/* ===== RESET BÁSICO ===== */
+:root {
+    /* Paleta de Cores Outono */
+    --verde: #384001;
+    --laranja: #E86433;
+    --amarelo: #e7db75;
+    --marrom: #5B1A04;
+    --vermelho: #E84130;
+    --branco: #e8e8e8;
+    --preto: #1C1C1C;
+    --fundo1: #FFEBCD;
+    --certos: #10B981;
+    --verde2: #9bb300;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== GERAL ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--fundo1);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    overflow-y: hidden;
+
+    flex-direction: column;
+}
+
+/* ===== CABEÇALHO ===== */
+.header {
+  background-color: var(--laranja);
+  color: var(--branco);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  width: 100%;
+  margin: auto;
+}
+
+header h2 {
+    color: var(--laranja);
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+.logo-icon {
+  font-size: 2rem;
+  color: var(--laranja);
+  margin-right: 10px;
+}
+
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: 500;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+}
+
+.nav-link:hover {
+  color: var(--la);
+  border-bottom-color: var(--laranja);
+}
+
+
+/* ===== CONTEÚDO ===== */
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+section {
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* ===== FORMULÁRIO ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 100%;
+}
+
+button {
+    background: var(--laranja);
+    color: var(--branco);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+
+/* ===== MENSAGEM ===== */
+.msg {
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--certos);
+}
+
+/* ===== LISTA DE CHAMADOS ===== */
+.chamados ul {
+    list-style: none;
+    padding: 0;
+}
+
+.chamados li {
+    border-bottom: 1px solid var(--certos);
+    padding: 10px 0;
+}
+
+/* ===== RODAPÉ ===== */
+
+
+footer {
+    background: var(--marrom);
+    color: var(--branco);
+    height: 10vw;
+    text-align: center;
+    font-size: 1.5rem;
+  
+}
+

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aki Produtos Eletrônicos - Tecnologia para Todos</title>
+    <link rel="stylesheet" href="/static/css/styleCoop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="/akiCooperativa/user" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="/cart" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-item-count">0</span>
+                </a>
+                <a href="/suporte" class="nav-link">Suporte</a>
+                <a href="/perfil" class="nav-link">Perfil</a>
+                <a href="/logout" class="nav-link">Logout</a><br>
+            </nav>
+        </div>
+    </header>
+
+    <div class="bemVindo">
+        <h6>Seja Bem-Vindo AKI</h6>
+    </div>
+
+    <!-- teste de produtos -->
+    <section id="produtos" class="products-section">
+        <h1>Conheça nossos produtos</h1>
+
+        <input type="text" id="campo-busca" class="campo-busca" placeholder="🔍 Buscar produto..."
+            onkeyup="filtrarProdutos()">
+        <div id="popup-imagem" class="popup">
+            <span class="fechar" onclick="fecharImagem()">&times;</span>
+            <img class="popup-conteudo" id="imagem-expandida" alt="Produto">
+        </div>
+
+
+        <div class="card-tabela">
+            <table id="tabela-produtos" class="tabela-produtos">
+                <thead class="tabela">
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th> <button class="btn-carrinho">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button></th>
+                    </tr>
+                </thead>
+                <tbody class="tabela-produtos-corpo">
+                    <tr class="tabela-produtos-linha">
+                        <td colspan="5">Carregando produtos...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Link direto para WhatsApp -->
+    <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+        target="_blank">
+        <span><i class="fab fa-whatsapp"></i></span>
+        <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+    </a>
+
+    <h1>♻️ Economia Circular e Vantagens</h1>
+    <p style="color: #000;">A Economia Circular transforma resíduos, como seus eletrônicos antigos, em novos recursos.
+        Ao participar, você ganha um desconto imediato (o 'token') em nosso site, incentivando o consumo consciente.
+        Esta prática beneficia o consumidor com vantagens financeiras e contribui para a redução do lixo eletrônico,
+        promovendo um futuro mais sustentável para toda a sociedade.
+    </p>
+
+    <div class="carousel-wrapper">
+        {% for coop in cooperativas %}
+        <div class="local-card">
+            <div class="local-card-content">
+
+
+                <div class="info">
+                    <h3>{{ coop.nome }}</h3>
+
+                    <p>CEP: {{ coop.cep }}</p>
+
+                    <p>Endereço: {{ coop.rua }}, {{ coop.cidade }}, {{ coop.numero }}</p>
+
+                    <p class="telefone">Contato: {{ coop.telefone }}</p>
+
+                    <p class="email">Email: {{ coop.email }}</p>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ coop.cep }}" target="_blank"
+                        class="link-mapa">
+                        Ver no Mapa
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="local-card">
+            <div class="local-card-content">
+                <div class="info">
+                    <h3>Nenhum parceiro encontrado</h3>
+                    <p>Cadastre cooperativas no painel administrativo.</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="toast-notification" class="toast-notification">
+        <p id="toast-message"></p>
+    </div>
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirmar Ação</h2>
+            <p>Você tem certeza que deseja finalizar sua compra?</p>
+            <div class="modal-actions">
+                <button id="modal-cancel-btn" class="btn-secondary">Não</button>
+                <button id="modal-confirm-btn" class="btn btn-primary">Sim, finalizar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contato" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🍁</span>
+                        <span class="logo-text">Aki Empresa</span>
+                    </a>
+
+                    <h4>Contato</h4>
+                    <p>Telefone: (44) 99813-5592</p>
+                    <p>Email: contato@akicoop.com.br</p>
+                    <p>Instagram: @aki.produtos.eletronicos</p>
+                </div>
+                <div class="footer-contact">
+
+                </div>
+                <div class="ceep">
+
+                    <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                    <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="/static/scriptCoop.js"></script>
+
+</body>
+
+
+</html>

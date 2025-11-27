@@ -1,0 +1,403 @@
+:root {
+    /* Paleta de Cores Outono */
+    --verde: #384001;
+    --laranja: #E86433;
+    --amarelo: #ece9ce;
+    --marrom: #5B1A04;
+    --vermelho: #E84130;
+    --branco: #e8e8e8;
+    --preto: #1C1C1C;
+    --fundo1: #FFEBCD;
+    --certos: #10B981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+body {
+   background-color: var(--fundo1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0px;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header & Navegação */
+.header {
+  background-color: var(--laranja);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  width: 100%;
+  margin: auto;
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+.logo-icon {
+  font-size: 2rem;
+  color: var(--laranja);
+  margin-right: 10px;
+}
+
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: 500;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+
+.nav-link:hover {
+  color: var(--laranja);
+  border-bottom-color: var(--laranja);
+}
+
+
+/* Botões */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+
+.btn-carrinho {
+  background-color: var(--laranja);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+
+.btn-carrinho:hover {
+  background-color: var(--vermelho);
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background-color: var(--laranja);
+  color: var(--branco);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-red);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--fundo1);
+  color: var(--amarelo);
+}
+
+.btn-secondary:hover {
+  background-color: #4a5301;
+}
+
+
+/* Caixa de login centralizada e estilizada */
+.login {
+    background-color: var(--fundo1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+
+/* 1. Título MAIOR e espaçamento reduzido */
+.headerLogin h3 {
+   font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--marrom);
+   align-items: center;
+  width: 100%;
+    padding-bottom: 1px;
+    /* margin: 0 0 20px 0;    Remove o 30% que estava quebrando tudo */
+    text-align: center;
+    padding-top: 120px;
+}
+
+.headerLogin::after{
+  border-bottom: 5px solid var(--verde);
+  content: "";
+  display: block;
+  width: 150px;            /* tamanho da linha */
+  height: 3px;            /* espessura da linha */
+  background-color: #000; /* cor da linha */
+  margin: 8px auto 0;
+}
+
+/* Formulário */
+.formLogin {
+    max-width: 30%;
+    margin: 0 auto;
+    padding: 0;
+    height: auto;
+    margin-top: 10px;
+}
+
+#formLogin {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    background: var(--branco);
+    box-shadow: none;
+    padding: 20px;
+    /* box-sizing: border-box; */
+    border-radius: 5%;
+
+}
+
+#formLogin>.campoLogin {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+
+
+@media (max-width: 600px) {
+    #formLogin>.campoLogin {
+        width: 100%;
+    }
+}
+
+/* 2. Proporção dos rótulos (Labels) */
+.campoLogin label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 3px;
+    /* Espaçamento reduzido entre label e input */
+    color: var(--marrom);
+    font-size: 1.5rem;
+    /* Proporcional */
+}
+
+/* 3. Proporção e tamanho da CAIXA para digitar (Inputs) */
+.campoLogin input[type="text"],
+.campoLogin input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--verde);
+    border-radius: 8px;
+    background-color: var(--branco);
+    transition: all 0.2s ease;
+}
+
+
+.campoLogin input:focus {
+    border-color: var(--laranja);
+    /* Mudei para laranja para usar uma cor da sua paleta */
+    box-shadow: 0 0 0 2px rgba(232, 100, 51, 0.3);
+    outline: none;
+}
+
+.campoLogin input::placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+
+/* Botões */
+.btnLogin
+{
+display: block;
+width: 100%;
+max-width: 300px;
+margin: 5px auto;
+background: linear-gradient(135deg, var(--laranja) 0%, var(--vermelho) 100%);
+/* Usando cores da paleta */
+color: white;
+border: none;
+padding: 12px 0;
+border-radius: 30px;
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px var(--amarelo);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+text-align: center;
+/* Centraliza o texto dentro do botão */
+text-decoration: none;
+/* Remove sublinhado se for link */
+}
+
+.btnLogin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(232, 65, 48, 0.6);
+}
+
+a {
+    font-weight: 700;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+}
+
+h1 {
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 3px;
+        color: var(--marrom);
+    font-size: 1.5rem;
+text-align: center;
+    
+}
+
+#formLogin>.campoNovo {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    text-align: center;
+
+}
+
+
+.whatsapp-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: #25D366;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  z-index: 99999;
+  transition: .3s;
+  transform: translateX(10%);
+  transform: translateY(-370%);
+}
+
+.whatsapp-button .fab {
+  font-size: 22px;
+}
+
+.text-whatsapp {
+  white-space: nowrap;
+  transition: .3s;
+}
+
+
+/*----------------- FOOTER ------------------*/
+.footer {
+  width: 100%;
+  background-color: var(--marrom);
+  color: var(--branco);
+  padding: 30px 0 10px 0;
+  margin-top: auto;
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-logo h4 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: var(--laranja);
+}
+
+.footer-logo p,
+.ceep p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.ceep {
+  text-align: right;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+
+
+
+.ceep {
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  display: grid;
+}
+
+.ceep p {
+  text-align: center;
+  width: 50%;
+}
+
+.img-ceep {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+

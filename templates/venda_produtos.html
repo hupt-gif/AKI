@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍁Produtos🍁</title>
+    <link rel="stylesheet" href="/static/css/styleProdutos.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">Início</a>
+                <a href="/produtos" class="nav-link">Produtos</a>
+                <a href="/cadastro" class="nav-link">Cadastro</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/akiCooperativa" class="nav-link">Suporte</a>
+                <a href="/" class="nav-link">Empresa</a>
+            </nav>
+            <a href="/cart" class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-item-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="folha" style="left: 10%; animation-duration: 5s;">🍂</div>
+        <div class="folha" style="left: 10%; animation-duration: 6s;">🍁</div>
+        <div class="folha" style="left: 20%; animation-duration: 5s;">🍂</div>
+        <div class="folha" style="left: 30%; animation-duration: 8s;">🍁</div>
+        <div class="folha" style="left: 50%; animation-duration: 10s;">🍂</div>
+
+        <div class="titulo">
+            <h1>🍁Produtos🍁</h1>
+        </div>
+
+        <!-- Pop-up (modal) da imagem -->
+        <div id="popup-imagem" class="popup">
+            <span class="fechar" onclick="fecharImagem()">&times;</span>
+            <img class="popup-conteudo" id="imagem-expandida" alt="Produto">
+        </div>
+
+        <input type="text" id="campo-busca" class="campo-busca" placeholder="🔍 Buscar produto..."
+            onkeyup="filtrarProdutos()">
+
+        <table id="tabela-produtos" class="tabela-produtos">
+            <thead class="tabela">
+                <tr>
+                    <th>Imagem</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="tabela-produtos-corpo">
+                <tr class="tabela-produtos-linha">
+                    <td colspan="5">Carregando produtos...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="subindo">
+        <button class="subir">
+            <span class="sobrepor">
+                <span class="letra1">🍁</span>
+                <span class="letra2">🔝</span>
+            </span>
+        </button>
+    </div>
+
+    <div id="toast-notification" class="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    
+    <footer id="contato" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🍁</span>
+                        <span class="logo-text">Aki Empresa</span>
+                    </a>
+
+                    <h4>Contato</h4>
+                    <p>Telefone: (44) 99813-5592</p>
+                    <p>Email: contato@akicoop.com.br</p>
+                    <p>Instagram: @aki.produtos.eletronicos</p>
+                </div>
+                <div class="footer-contact">
+
+                </div>
+                <div class="ceep">
+
+                    <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                    <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/scriptProdutos.js"></script>
+
+</body>
+
+</html>

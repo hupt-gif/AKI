@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Aki Cooperativa</title>
+
+    <link rel="stylesheet" href="/static/css/styleCoop.css">
+    <link rel="stylesheet" href="/static/css/checkout.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="/akiCooperativa/user" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="/cart" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-item-count">0</span>
+                </a>
+                <a href="/suporte" class="nav-link">Suporte</a>
+                <a href="/perfil" class="nav-link">Perfil</a>
+                <a href="/logout" class="nav-link">Logout</a><br>
+            </nav>
+        </div>
+    </header>
+
+    <main class="checkout-page">
+        <div class="container">
+            <h1>Finalizar Compra</h1>
+            <div class="checkout-layout">
+                <div class="checkout-details">
+                    <section class="checkout-section">
+                        <h2>1. Detalhes de Envio</h2>
+                        <form id="shipping-form" class="checkout-form">
+                            <input type="hidden" id="hidden-user-id" value="{{ perfil.id }}">
+                            <input type="hidden" id="hidden-user-name" value="{{ perfil.nome_completo }}">
+                            <input type="hidden" id="hidden-user-cpf" value="{{ perfil.cpf }}">
+
+                            <div class="form-group" class="teste">
+                                <label>Nome Completo:</label>
+                                <input type="text" id="input-nome" value="{{ perfil.nome_completo }}" readonly
+                                    style="background-color: #f0f0f0;">
+                            </div>
+
+                            <div class="form-group">
+                                <label>E-mail:</label>
+                                <input type="email" id="input-email" value="{{ perfil.email }}" readonly
+                                    style="background-color: #f0f0f0;">
+                            </div>
+
+                            <div class="form-group" style="margin-top: 15px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                    <label for="endereco-select" style="margin-bottom: 0;">Endereço de Entrega:</label>
+                                    <a href="/perfil" class="btn"
+                                        style="font-size: 0.8rem; padding: 4px 10px; background-color: #da6416; color: white; text-decoration: none; border-radius: 4px;">
+                                        <i class="fa-solid fa-plus"></i> Novo Endereço
+                                    </a>
+                                </div>
+                                {% if enderecos %}
+                                <select id="endereco-select" class="input-padrao" style="width: 100%; padding: 10px;"
+                                    required>
+                                    <option value="" selected disabled>Selecione um endereço...</option>
+                                    {% for end in enderecos %}
+                                    <option value="{{ end.endereco_id }}" data-rua="{{ end.rua }}"
+                                        data-numero="{{ end.numero }}" data-bairro="{{ end.bairro }}"
+                                        data-cidade="{{ end.cidade }}" data-cep="{{ end.cep }}">
+                                        {{ end.rua }}, {{ end.numero }} - {{ end.cidade }} ({{ end.cep }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <p id="endereco-detalhes" style="font-size: 0.9em; color: #666; margin-top: 5px;"></p>
+                                {% else %}
+                                <p style="color: red;">Você não possui endereços cadastrados.</p>
+                                <a href="/perfil" class="btn btn-secondary" style="font-size: 0.8rem;">Cadastrar
+                                    Endereço no Perfil</a>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </section>
+                    <section class="checkout-section">
+                        <h2>2. Forma de Pagamento</h2>
+
+                        <div id="container-select-cartao" class="{% if not pagamentos %}hidden{% endif %}"
+                            style="margin-bottom: 20px; background: #e9ecef; padding: 15px; border-radius: 8px;">
+                            <label><strong>Usar cartão salvo:</strong></label>
+                            <select id="cartao-salvo-select" class="input-padrao" style="width:100%; margin-top:5px;">
+                                <option value="">-- Selecionar Cartão --</option>
+                                {% if pagamentos %}
+                                {% for pag in pagamentos %}
+                                <option value="{{ pag.id }}">
+                                    {{ pag.apelido }} ({{ pag.info_mascarada }})
+                                </option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+
+                        <div id="payment-methods" class="payment-options">
+                            <div class="payment-option" id="btn-novo-cartao">
+                                <i class="fa-solid fa-credit-card"></i>
+                                <span>+ Novo Cartão</span>
+                            </div>
+                            <div class="payment-option" id="btn-pix">
+                                <i class="fa-brands fa-pix"></i>
+                                <span>Pix</span>
+                            </div>
+                            <div class="payment-option" id="btn-boleto">
+                                <i class="fa-solid fa-barcode"></i>
+                                <span>Boleto</span>
+                            </div>
+                        </div>
+
+                        <div id="payment-details">
+                        </div>
+                    </section>
+                </div>
+                <div class="order-summary-checkout">
+                    <h2>Resumo do Pedido</h2>
+                    <div id="summary-items-container">
+                    </div>
+                    <hr>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="summary-total-checkout">R$ 0,00</span>
+                    </div>
+
+                    <div class="token-section">
+                        <label for="token-input">Token da Cooperativa</label>
+                        <br><input type="text" id="token-input" placeholder="Insira seu token" maxlength="8"
+                            style="text-transform:uppercase; width: 100%; padding: 8px; margin-top: 5px;">
+                        <br> <button id="apply-token-btn" class="btn btn-secondary"
+                            style="margin-top: 10px; width: 100%;">Aplicar Token</button>
+                        <p id="token-message" style="margin-top: 8px;"></p>
+                    </div>
+
+                    <button id="finish-order-btn" class="btn btn-primary checkout-btn">Finalizar Compra</button>
+
+                    <div id="confirmation-modal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <h3>Confirmar pedido?</h3>
+                            <p>Verifique os dados antes de concluir.</p>
+                            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                                <button id="modal-cancel-btn" class="btn btn-secondary">Cancelar</button>
+                                <button id="modal-confirm-btn" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="pagamentoModalCheckout" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="closePagamentoModalCheckout" class="close-button">&times;</span>
+            <h2>Adicionar Novo Cartão</h2>
+            <form id="form-novo-pagamento-checkout">
+                <label style="display:block; margin-top:10px;">Apelido do Cartão (Ex: NuBank)
+                    <input type="text" id="pg-apelido" class="input-padrao" placeholder="Meu Cartão Principal" required
+                        style="width:100%">
+                </label>
+
+                <label style="display:block; margin-top:10px;">Número do Cartão
+                    <input type="text" id="pg-numero" class="input-padrao" maxlength="19"
+                        placeholder="0000 0000 0000 0000" required style="width:100%">
+                </label>
+
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <label style="flex:1">Validade
+                        <input type="text" id="pg-validade" class="input-padrao" placeholder="MM/AA" maxlength="5"
+                            required style="width:100%">
+                    </label>
+                    <label style="flex:1">CVV
+                        <input type="text" id="pg-cvv" class="input-padrao" placeholder="123" maxlength="3" required
+                            style="width:100%">
+                    </label>
+                </div>
+
+                <label style="display:block; margin-top:10px;">Nome no Cartão
+                    <input type="text" id="pg-titular" class="input-padrao" required style="width:100%">
+                </label>
+
+                <div style="margin-top:20px; text-align: right;">
+                    <button type="submit" class="btn btn-primary">Salvar e Usar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-pagamento-final" class="modal" style="display: none;">
+        <div class="modal-content" style="text-align: center;">
+            <span id="close-modal-pagamento" class="close-button">&times;</span>
+
+            <div id="conteudo-pagamento-final">
+            </div>
+
+            <div style="margin-top: 20px;">
+                <p style="font-size: 0.9em; color: #555; margin-bottom: 10px;">
+                    Após realizar o pagamento ou baixar o boleto, clique em concluir.
+                </p>
+                <button id="btn-concluir-final" class="btn btn-primary">
+                    Concluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link direto para WhatsApp -->
+    <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+        target="_blank">
+        <span><i class="fab fa-whatsapp"></i></span>
+        <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+    </a>
+
+    
+    <footer id="contato" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🍁</span>
+                        <span class="logo-text">Aki Empresa</span>
+                    </a>
+
+                    <h4>Contato</h4>
+                    <p>Telefone: (44) 99813-5592</p>
+                    <p>Email: contato@akicoop.com.br</p>
+                    <p>Instagram: @aki.produtos.eletronicos</p>
+                </div>
+                <div class="footer-contact">
+
+                </div>
+                <div class="ceep">
+
+                    <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                    <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/scriptCoop.js" defer></script>
+
+</body>
+
+</html>

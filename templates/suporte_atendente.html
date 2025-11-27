@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Suporte - Funcionário</title>
+  <link rel="stylesheet" href="/static/css/suporteAtendente.css" />
+</head>
+
+<body>
+
+
+  <header>
+
+    <a href="/akiCooperativa" class="logo">
+      <span class="logo-icon">🍁</span>
+      <span class="logo-text">Aki Produtos Eletrônicos</span>
+    </a>
+
+    <h1>Central de Suporte</h1>
+    <div class="user-info">
+
+      <img src="https://i.pravatar.cc/40" alt="Foto de perfil" />
+      <button class="logout" id="nome-funcionario">Carlos Silva</button>
+      <button class="logout"> <a href="/suporte/atendente/perfil"> Perfil</a></button>
+      <button onclick="logout()" class="logout">Sair</button>
+    </div>
+  </header>
+
+
+  <main>
+    <section class="perfil">
+      <h2>Informações do Funcionário</h2>
+      <p><strong>Nome:</strong> <span id="nome-painel">Carlos Silva</span></p>
+      <p><strong>Cargo:</strong> <span id="cargo-painel">Analista de Suporte Nível 2</span></p>
+      <p><strong>Status:</strong> <span class="online" id="status-painel">Online</span></p>
+
+    </section>
+
+    <input type="text" class="buscar" id="buscar" placeholder="Pesquisar cliente..." oninput="filtrarChamados()">
+
+    <section class="chamados">
+      <h2>Chamados Pendentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Assunto</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-chamados">
+          <!-- Preenchido via JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- 🔹 POPUP DE ATENDIMENTO -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="fechar" onclick="fecharPopup()">&times;</span>
+      <h2>Atendimento ao Cliente</h2>
+      <div id="dados-cliente"></div>
+
+      <div class="chat-container">
+        <div id="chat-mensagens" class="chat-mensagens"></div>
+        <div class="chat-input">
+          <input type="text" id="mensagem" placeholder="Digite uma mensagem..." />
+          <button onclick="enviarMensagem()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <p>© 2025 Central de Suporte. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="/static/scriptAtendente.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho - Aki Cooperativa</title>
+    <link rel="stylesheet" href="/static/css/styleCoop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="/akiCooperativa/user" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="/cart" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-item-count">0</span>
+                </a>
+                <a href="/suporte" class="nav-link">Suporte</a>
+                <a href="/perfil" class="nav-link">Perfil</a>
+                <a href="/logout" class="nav-link">Logout</a><br>
+            </nav>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <div class="container">
+            <h1>Meu Carrinho</h1>
+            <div class="cart-layout">
+                <div id="cart-items-container" class="cart-items">
+                </div>
+                <div class="cart-summary">
+                    <h2>Resumo do Pedido</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Frete</span>
+                        <span>Grátis</span>
+                    </div>
+                    <hr>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="summary-total">R$ 0,00</span>
+                    </div>
+                    <a href="/checkout" id="checkout-button" class="btn btn-primary checkout-btn">Ir para o
+                        Pagamento</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Link direto para WhatsApp -->
+    <a class="whatsapp-button" href="https://wa.me/5544998135592?text=Olá%2C%20quero%20tirar%20uma%20dúvida"
+        target="_blank">
+        <span><i class="fab fa-whatsapp"></i></span>
+        <span class="text-whatsapp">F.A.Q - Tire suas dúvidas Aki</span>
+    </a>
+
+    <footer id="contato" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🍁</span>
+                        <span class="logo-text">Aki Empresa</span>
+                    </a>
+
+                    <h4>Contato</h4>
+                    <p>Telefone: (44) 99813-5592</p>
+                    <p>Email: contato@akicoop.com.br</p>
+                    <p>Instagram: @aki.produtos.eletronicos</p>
+                </div>
+                <div class="footer-contact">
+
+                </div>
+                <div class="ceep">
+
+                    <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                    <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/scriptCoop.js"></script>
+
+    <div id="toast-notification" class="toast-notification">
+        <p id="toast-message"></p>
+    </div>
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirmar Ação</h2>
+            <p>Você tem certeza que deseja finalizar sua compra?</p>
+            <div class="modal-actions">
+                <button id="modal-cancel-btn" class="btn btn-secondary">Não</button>
+                <button id="modal-confirm-btn" class="btn btn-primary">Sim, finalizar</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,596 @@
+/* Estilo básico e limpo para painel admin */
+:root {
+    /* Paleta de Cores Outono */
+    --verde: #384001;
+  --laranja: #E86433;
+    --amarelo: #e7db75;
+    --marrom: #5B1A04;
+    --vermelho: #E84130;
+    --branco: #e8e8e8;
+    --preto: #1C1C1C;
+    --fundo1: #FFEBCD;
+    --certos: #10B981;
+    --verde2: #9bb300;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo1);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header & Navegação */
+.header {
+    background-color: var(--laranja) !important;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 20000 !important;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    margin: auto;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+.logo-icon {
+    font-size: 2rem;
+    color: var(--laranja);
+    margin-right: 10px;
+}
+
+
+.nav-menu {
+    display: flex;
+    gap: 30px;
+    background: none;
+}
+
+
+.nav-link {
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+
+/* Corrigido: Variável errada, assumindo que deveria ser 'laranja' */
+.nav-link:hover {
+    color: var(--laranja);
+    border-bottom-color: var(--laranja);
+}
+
+nav {
+    background-color: var(--marrom);
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+
+nav a {
+    color: var(--branco);
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+}
+
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+}
+
+.container-cooperativas {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+}
+
+.container-clientes{
+ max-width: 1500px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+}
+.container-produtos{
+ max-width: 1200px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+}
+
+#container-vendas {
+ max-width: 1200px;
+    margin: 2rem auto;
+    background-color: var(--branco);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    margin-top: calc(70px + 2rem);
+      max-height: 80vh;   /* limita altura a 80% da tela */
+  overflow-y: auto; 
+}
+
+h1 {
+    color: var(--branco);
+    text-align: center;
+}
+
+
+h2 {
+    color: var(--marrom);
+    text-align: center;
+}
+
+p {
+    color: var(--marrom);
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+
+form input,
+form textarea {
+    /* Corrigido: Usando var(--marrom) ou #ccc no border */
+    padding: 8px;
+    border: 1px solid var(--marrom);
+    border-radius: 4px;
+}
+
+
+button {
+    background-color: var(--laranja);
+    color: var(--branco);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+button:hover {
+    /* Corrigido: Deixando a cor mais escura para o hover, mas mantendo a cor base */
+    background-color: #c84010;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+
+table th {
+    background-color: var(--marrom);
+    color: var(--branco);
+}
+
+
+
+.actions button {
+    background-color: var(--laranja);
+}
+
+
+.actions button:hover {
+    background-color: #c84010;
+}
+
+
+.erro {
+    color: var(--vermelho);
+    font-size: 0.9em;
+    margin-top: 4px;
+    display: block;
+}
+
+
+/* 🔍 Barra de pesquisa de produtos */
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+
+.search-container input {
+    padding: 8px 10px;
+    /* Corrigido: Usando var(--marrom) ou #ccc no border */
+    border: 1px solid var(--marrom);
+    border-radius: 4px;
+    width: 250px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--verde);
+    box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
+}
+
+
+.search-container button {
+    background-color: var(--verde);
+    color: var(--branco);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.search-container button:hover {
+    background-color: #34495e;
+}
+
+/* ===========================
+    Modal moderno - Edição Produto
+    =========================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    width: 420px;
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: scaleIn 0.25s ease;
+}
+
+/* Botão X de fechar */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #444;
+    transition: 0.2s;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.modal-content h3 {
+    margin-bottom: 5px;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.modal-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-save {
+    padding: 10px 18px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.btn-save:hover {
+    background: #218838;
+}
+
+.btn-cancel {
+    padding: 10px 18px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #c82333;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        background: rgba(0, 0, 0, 0);
+    }
+
+    to {
+        background: rgba(0, 0, 0, 0.55);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.footer {
+    background: var(--marrom);
+    color: var(--branco);
+    /* Alterado: Removido position: fixed, bottom: 0 e width: 100% */
+    /* Agora o footer segue o fluxo normal do documento, sempre no final do conteúdo */
+    height: auto;
+    /* Garante que a altura seja a necessária pelo conteúdo */
+    margin-top: auto;
+    /* Opcional: Empurra o footer para baixo se o conteúdo for menor que a tela (garantido pelo flex-grow: 1 do .container) */
+    padding: 1rem 0;
+}
+
+.footer span {
+    text-decoration: none;
+    color: var(--branco);
+    font-size: 2rem;
+
+}
+
+.footer p {
+    color: var(--branco);
+    text-align: start;
+}
+
+.footer p1 {
+    color: var(--branco);
+    text-align: center;
+}
+
+.footer-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 2.5rem;
+}
+
+.footer-col {
+    flex: 1;
+    width: 80px
+}
+
+.footer-col.center {
+    text-align: center;
+}
+
+.footer p {
+    margin: 6px 0;
+    opacity: .9;
+}
+
+.img-ceep {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.graficos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.grafico-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.acoes-relatorio {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-busca {
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    flex: 1;
+}
+#input-nome{
+    background: #10B981;
+}
+
+/* --- Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+}
+
+.modal-content {
+    background: white;
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 12% auto;
+}
+
+.modal-close {
+    float: right;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.btn {
+    background: #d05121;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background: #555;
+}
+
+/* Modal de cadastro de produtos */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 450px;
+    animation: fadein .2s ease;
+}
+
+.modal-close {
+    float: right;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+fecharTabela{
+    padding-left: 0;
+}
+

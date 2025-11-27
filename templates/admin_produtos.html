@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/akiCooperativa" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Aki Produtos Eletrônicos</span>
+            </a>
+
+            <h1>Painel do Administrador</h1>
+            <nav class="nav-menu">
+                <a href="/akiCooperativa" class="nav-link">🍁Ínicio🍁</a>
+            </nav>
+        </div>
+        <nav>
+            <a href="{{ url_for('views.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('views.listar_produtos') }}">Gerenciar Produtos</a>
+            <a href="{{ url_for('views.listar_clientes') }}">Gerenciar Clientes</a>
+            <a href="{{ url_for('views.listar_cooperativas') }}">Gerenciar Cooperativas</a>
+            <a href="{{ url_for('views.relatorio_vendas') }}">Relatório de Vendas</a>
+            <a href="{{ url_for('views.ir_para_loja') }}">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container-produtos">
+        <div id="cadastroModal" class="modal">
+            <div class="modal-content">
+
+                <button class="modal-close" type="button" onclick="fecharCadastro()">✕</button>
+
+                <h3>Cadastrar Novo Produto</h3>
+
+                <form id="formProdutoModal">
+                    <input type="text" name="nome" placeholder="Nome do produto" required>
+
+                    <textarea name="descricao" placeholder="Descrição"></textarea>
+
+                    <input type="number" step="0.01" name="preco" placeholder="Preço" min="0" required>
+
+                    <input type="number" name="estoque" placeholder="Estoque" min="0" required>
+
+                    <input type="url" name="fotoURL" placeholder="Url da imagem do produto" required>
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-save">Adicionar Produto</button>
+                        <button type="button" class="btn-cancel" onclick="fecharCadastro()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button id="btnAbrirCadastro" class="btn">➕ Cadastrar Produto</button>
+        <h2>Lista de Produtos</h2>
+
+        <!-- 🔍 Barra de Pesquisa -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar produto pelo nome...">
+            <button onclick="buscarProduto()">Buscar</button>
+        </div>
+
+        <table id="tabelaProdutos">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Foto do Produto</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in produtos %}
+                <tr>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.descricao }}</td>
+                    <td>R$ {{ p.preco }}</td>
+                    <td>{{ p.estoque }}</td>
+                    <td>{{ p.fotoURL }}</td>
+                    <td class="actions">
+                        <button onclick="editarProduto('{{ p.produto_id }}')">Editar</button> <br>
+                        <br>
+                        <button onclick="excluirProduto('{{ p.produto_id }}')">Excluir</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Nenhum produto cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+
+            <button class="modal-close" type="button" onclick="fecharModal()">✕</button>
+
+            <h3>Editar Produto</h3>
+
+            <input type="hidden" id="editId">
+
+            <label>Nome:</label>
+            <input type="text" id="editNome">
+
+            <label>Descrição:</label>
+            <textarea id="editDescricao"></textarea>
+
+            <label>Preço:</label>
+            <input type="number" step="0.01" id="editPreco">
+
+            <label>Estoque:</label>
+            <input type="number" id="editEstoque">
+
+            <label>URL da Imagem:</label>
+            <input type="url" id="editFotoURL">
+
+            <div class="modal-buttons">
+                <button type="button" class="btn-save" onclick="salvarEdicao()">Salvar</button>
+                <button type="button" class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-row">
+
+            <div class="footer-col">
+                <a href="/" class="logo">
+                    <span class="logo-icon">🍁</span>
+                    <span class="logo-text">Aki Empresa</span>
+                </a>
+
+                <p>Telefone: (44) 99813-5592</p>
+                <p>Email: contato@akicoop.com.br</p>
+                <p>Instagram: @aki.produtos.eletronicos</p>
+            </div>
+
+            <div class="footer-col center">
+                <img class="img-ceep" src="/static/img/Logo CEEP.png" alt="">
+                <p>Sistema desenvolvido pelos alunos do 1º semestre do CEEP Maringá.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p1>&copy; 2025 Aki Cooperativa. Todos os direitos reservados.</p1>
+        </div>
+    </footer>
+
+
+    <script>
+        async function parseJSONSafe(res) {
+            const text = await res.text();
+            try {
+                return JSON.parse(text);
+            } catch {
+                console.error("Resposta não é JSON:", text);
+                throw new Error("Resposta inválida do servidor.");
+            }
+        }
+
+        // Cadastro de produtos
+        document.getElementById('formProdutoModal').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+
+            const res = await fetch('/admin/produtos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await parseJSONSafe(res);
+            alert(result.message);
+
+            fecharCadastro();
+            location.reload();
+        });
+
+        // Exclusão de produtos
+        async function excluirProduto(id) {
+            if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+
+            const res = await fetch(`/admin/produtos/${id}`, { method: 'DELETE' });
+            const result = await parseJSONSafe(res);
+            alert(result.message);
+            location.reload();
+        }
+
+        // 🔍 Função de busca local
+        function buscarProduto() {
+            const input = document.getElementById('searchInput');
+            const filtro = input.value.toLowerCase();
+            const tabela = document.getElementById('tabelaProdutos');
+            const linhas = tabela.getElementsByTagName('tr');
+
+            for (let i = 1; i < linhas.length; i++) {
+                const nomeCelula = linhas[i].getElementsByTagName('td')[0];
+                if (nomeCelula) {
+                    const textoNome = nomeCelula.textContent || nomeCelula.innerText;
+                    if (textoNome.toLowerCase().includes(filtro)) {
+                        linhas[i].style.display = "";
+                    } else {
+                        linhas[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+
+        // Edição
+        async function editarProduto(id) {
+            const res = await fetch(`/admin/produtos/${id}`);
+            const p = await parseJSONSafe(res);
+
+            window.produtoEditando = id;
+
+            document.getElementById("editId").value = p.id;
+            document.getElementById("editNome").value = p.nome;
+            document.getElementById("editDescricao").value = p.descricao;
+            document.getElementById("editPreco").value = p.preco;
+            document.getElementById("editEstoque").value = p.estoque ?? 0;
+            document.getElementById("editFotoURL").value = p.fotoURL;
+
+            document.getElementById("editModal").style.display = "flex";
+        }
+
+        function fecharModal() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+        async function salvarEdicao() {
+            const id = window.produtoEditando;
+
+            const data = {
+                nome: document.getElementById("editNome").value,
+                descricao: document.getElementById("editDescricao").value,
+                preco: Number(document.getElementById("editPreco").value),
+                estoque: Number(document.getElementById("editEstoque").value),
+                fotoURL: document.getElementById("editFotoURL").value
+            };
+
+            const res = await fetch(`/admin/produtos/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await parseJSONSafe(res);
+            alert(result.message);
+
+            fecharModal();
+            carregarProdutos();
+        }
+
+        // Permitir busca ao digitar
+        document.getElementById('searchInput').addEventListener('keyup', buscarProduto);
+
+        // =========================
+        //  MODAL DE CADASTRO
+        // =========================
+
+        // abrir o modal
+        document.getElementById("btnAbrirCadastro").onclick = () => {
+            document.getElementById("cadastroModal").style.display = "flex";
+        };
+
+        // fechar modal
+        function fecharCadastro() {
+            document.getElementById("cadastroModal").style.display = "none";
+        }
+
+        // fechar clicando fora
+        window.onclick = function (event) {
+            const modal = document.getElementById("cadastroModal");
+            if (event.target === modal) modal.style.display = "none";
+        };
+
+
+    </script>
+</body>
+
+</html>

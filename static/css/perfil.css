@@ -1,0 +1,500 @@
+/* ===============================================
+    ESTILO DA PÁGINA DE PERFIL (perfil.css)
+    Usando a Paleta de Cores Outono
+=============================================== */
+
+/* 1. Paleta de Cores e Padrões Globais */
+:root {
+    --verde: #384001;
+    --laranja: #E86433;
+    --amarelo: #E97F05;
+    --marrom: #5B1A04;
+    --vermelho: #E84130;
+    --branco: #e8e8e8;
+    --preto: #1C1C1C;
+    --fundo1: #FFFEBCD;
+    --certos: #10B981;
+
+    --branco-puro: #FFFFFF;
+    --cinza-borda: rgba(28, 28, 28, 0.2);
+    --sombra-suave: rgba(28, 28, 28, 0.1);
+
+    /* VARIÁVEL ADICIONAL: Altura do Header Fixo */
+    --header-height: 70px;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo1);
+    color: var(--preto);
+    margin: 0;
+
+    /* 🚀 CORREÇÃO 1: Habilita o Sticky Footer no body */
+    display: flex;
+    /* Define como contêiner flexível */
+    flex-direction: column;
+    /* Organiza os itens em coluna */
+    min-height: 100vh;
+    /* Garante que o body ocupe, no mínimo, a altura da tela */
+
+    /* REMOVIDO: margin-top: 4vw; - Conflita com header fixo. */
+}
+
+/* Header & Navegação */
+.header {
+    background-color: var(--laranja);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: var(--header-height);
+    /* Usando a variável */
+    z-index: 1000;
+}
+
+.menu {
+    justify-content: space-between;
+    display: flex;
+    width: 14%;
+}
+
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    /* Passa a usar 100% da altura do .header (70px) */
+    width: 100%;
+    margin: auto;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+.logo-icon {
+    font-size: 2rem;
+    color: var(--laranja);
+    margin-right: 10px;
+}
+
+
+.nav-menu {
+    display: flex;
+    gap: 30px;
+}
+
+
+.nav-link {
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+
+.nav-link:hover {
+    color: var(--la);
+    border-bottom-color: var(--laranja);
+}
+
+
+/* 2. Layout Principal */
+
+/* 🚀 CORREÇÃO 2: Contêiner de Conteúdo Principal */
+/* Não alteramos o seu .profile-container, mas criamos uma classe de utilidade */
+/* para garantir que TUDO que não é header ou footer se expanda. */
+.main-wrapper {
+    flex-grow: 1;
+    /* A CHAVE: Força o contêiner a crescer e empurrar o footer */
+    /* Adiciona um padding no topo para compensar o header fixo */
+    padding-top: var(--header-height);
+}
+
+.profile-container {
+    display: flex;
+    max-width: 1200px;
+    /* A margem horizontal auto está OK para centralizar */
+    margin: 0 auto;
+    background-color: var(--branco-puro);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--sombra-suave);
+    overflow: hidden;
+}
+
+/* 3. Barra Lateral */
+.profile-sidebar {
+    flex-basis: 280px;
+    background-color: var(--branco);
+    border-right: 1px solid var(--cinza-borda);
+    padding: 2rem;
+}
+
+/* Navegação */
+.profile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-nav li {
+    margin-bottom: 0.5rem;
+}
+
+.profile-nav a {
+    display: block;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--preto);
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.profile-nav a i {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.profile-nav a:hover {
+    background-color: var(--fundo1);
+}
+
+.profile-nav a.active {
+    background-color: var(--marrom);
+    color: var(--branco-puro);
+}
+
+/* 4. Área de Conteúdo */
+.profile-content {
+    flex-grow: 1;
+    padding: 2.5rem;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.content-section h2 {
+    color: var(--marrom);
+    border-bottom: 2px solid var(--fundo1);
+    padding-bottom: 10px;
+}
+
+/* 5. Formulários */
+form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--preto);
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--certos);
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+}
+
+/* 6. Botões */
+.btn-salvar {
+    background-color: var(--verde);
+    color: var(--branco-puro);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: filter 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-salvar:hover {
+    filter: brightness(110%);
+}
+
+.btn-danger {
+    background-color: var(--vermelho);
+    color: var(--branco-puro);
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: filter 0.2s;
+}
+
+.btn-danger:hover {
+    filter: brightness(90%);
+}
+
+.btn-detalhes {
+    background-color: var(--laranja);
+    color: var(--branco-puro);
+    padding: 4px 8px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: filter 0.2s;
+}
+
+.btn-detalhes:hover {
+    filter: brightness(110%);
+}
+
+/* 7. Tabelas de Pedidos */
+#pedidos table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+#pedidos th,
+#pedidos td {
+    border: 1px solid var(--cinza-borda);
+    padding: 10px;
+    text-align: left;
+}
+
+#pedidos th {
+    background-color: var(--verde);
+    color: var(--branco);
+}
+
+.status-entregue {
+    background-color: var(--certos);
+    color: var(--branco-puro);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.status-cancelado {
+    background-color: var(--vermelho);
+    color: var(--branco-puro);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* 8. Cards */
+.saved-card,
+.address-card {
+    padding: 1.5rem;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    background-color: var(--branco-puro);
+}
+
+/* ===============================================
+    MODAL UNIFICADO (endereços, foto, cadastro cliente)
+=============================================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: var(--branco-puro);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 95%;
+    max-width: 520px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    animation: modalFade 0.25s ease-out;
+}
+
+@keyframes modalFade {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--preto);
+}
+
+.close-button:hover {
+    color: var(--vermelho);
+}
+
+.modal-content h2 {
+    color: var(--marrom);
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--fundo1);
+    padding-bottom: 12px;
+}
+
+.modal-content form label {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.modal-content form input,
+.modal-content form select {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 14px 0;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 6px;
+}
+
+.modal-content form input:focus,
+.modal-content form select:focus {
+    outline: none;
+    border-color: var(--certos);
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+}
+
+/* Erros */
+.input-error {
+    border-color: var(--vermelho) !important;
+    box-shadow: 0 0 4px rgba(232, 65, 48, 0.5);
+}
+
+.error-text {
+    color: var(--vermelho);
+    font-size: 0.85em;
+    margin-top: -10px;
+    margin-bottom: 12px;
+}
+
+/* Botão do cadastro cliente */
+#btn-open-cadastro {
+    margin-top: 10px;
+    background-color: var(--amarelo);
+    color: var(--branco-puro);
+}
+
+#btn-open-cadastro:hover {
+    filter: brightness(110%);
+}
+
+
+/* Footer */
+/* 🚀 CORREÇÃO 3: Otimização do Footer */
+
+/* Footer */
+.footer {
+    background-color: var(--marrom);
+    color: var(--branco);
+    padding: 10px;
+    justify-content: space-between;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Agrupamento principal */
+.footer-content {
+    max-width: 1500px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 3rem;
+    display: flex;
+    justify-content: space-between;
+    background: var(--marrom);
+}
+
+/* Logo */
+.footer-logo img {
+    width: 10px;
+    height: 10px;
+    /* ajuste como quiser */
+}
+
+.footer p {
+    opacity: 0.8;
+}
+
+p1 {
+    color: var(--branco);
+}
+
+h4 {
+    color: var(--branco);
+}
+
+.whatsapp-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #25D366;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    z-index: 99999;
+    transition: .3s;
+
+}
+
+.whatsapp-button .fab {
+    font-size: 22px;
+}
+
+.text-whatsapp {
+
+    white-space: nowrap;
+    transition: .3s;
+}
