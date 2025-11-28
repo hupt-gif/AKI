@@ -1,2 +1,11 @@
-data/
 venv/
+
+data/alterperfil.csv
+data/clientesCoop.csv
+data/contato.csv
+data/cooperativa.csv
+data/enderecos.csv
+data/login.csv
+data/pagamentos.csv
+data/pedidos.csv
+data/usuarios.csv
